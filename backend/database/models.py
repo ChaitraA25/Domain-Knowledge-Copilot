@@ -1,7 +1,6 @@
-from sqlalchemy.orm import declarative_base,mapped_column,Mapped
+from sqlalchemy.orm import mapped_column,Mapped
+from backend.database.db import Base
 
-# Every model inherits from Base
-Base = declarative_base()
 
 #Represents DB structure
 class User(Base):
