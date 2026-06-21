@@ -189,43 +189,22 @@ screenshots/frontend_ui
 The application uses SQLite with SQLAlchemy ORM.
 
 Core Models
-1)User
-
-class User(Base):
-    id
-    username
-    email
-    hashed_password
-    role
-
-2) Document
-class Document(Base): 
-    id 
-    filename 
-    filepath 
-    uploaded_at 
-    owner_id
-    
-3)ChatHistory
-class ChatHistory(Base): 
-    id 
-    user_id 
-    question 
-    answer 
-    created_at
+1. User - id, username, email, hashed_password, role
+2. Document - id, filename, filepath, uploaded_at, owner_id
+3. ChatHistory - id, user_id, question, answer, created_at
 
 Relationships
 User
  ├── Documents (1:N)
  └── ChatHistory (1:N)
 
-Models Source
+## Model Source
 
 backend/database/models.py
 
 screenshots/database_schema
 
-Database file:
+## Database File
 
 knowledge_copilot.db
 
