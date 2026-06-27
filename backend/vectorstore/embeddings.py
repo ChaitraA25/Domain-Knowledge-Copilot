@@ -1,9 +1,12 @@
 from sentence_transformers import SentenceTransformer
 
-model = SentenceTransformer(
-    "all-MiniLM-L6-v2"
-)
-#  - model returns NumPy array tolist converts to list which is easier to store in ChromaDB.
+_model = None
 
-def generate_embedding(text:str):
-    return model.encode(text).tolist()
+def get_model():
+    global _model
+    if _model is None:
+        _model = SentenceTransformer("all-MiniLM-L6-v2")
+    return _model
+
+def generate_embedding(text: str):
+    return get_model().encode(text).tolist()
