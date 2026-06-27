@@ -171,8 +171,7 @@ screenshots/frontend_ui
 ### Admin Workflow
 
 1. Register an account 
-(For admin credentials you need to change the role="admin" in the create_user() inside backend/services/user_service.py)
-2. Assign admin role (create it using Swagger UI and please remember to switch back the role="user after creating admin credentials)
+2. Assign admin role 
 3. Login
 4. Upload PDF/TXT documents
 5. View uploaded documents
