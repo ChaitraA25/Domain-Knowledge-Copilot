@@ -1,12 +1,11 @@
-from sentence_transformers import SentenceTransformer
+from openai import OpenAI
+import os
 
-_model = None
-
-def get_model():
-    global _model
-    if _model is None:
-        _model = SentenceTransformer("all-MiniLM-L6-v2")
-    return _model
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_embedding(text: str):
-    return get_model().encode(text).tolist()
+    response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=text
+    )
+    return response.data[0].embedding
