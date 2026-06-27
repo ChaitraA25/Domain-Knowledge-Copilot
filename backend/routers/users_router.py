@@ -24,7 +24,7 @@ router = APIRouter(
 def test_db(db: Session = Depends(get_db)):
     return {"message": "Database session created successfully"}
 
-@router.post("/",response_model=UserResponse)
+@router.post("/create-admin",response_model=UserResponse)
 def create_admin(user:UserCreate,db:Session = Depends(get_db)):
     
     existing_email = get_user_by_email(db,user.email)
