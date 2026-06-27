@@ -15,6 +15,8 @@ The system extracts text from uploaded documents, generates embeddings using Ope
 * JWT Authentication
 * Role-Based Access Control (Admin/User)
 
+### Admin Credentisl - Masai@example.com/Masai@123
+
 ### Document Management
 
 * Upload PDF and TXT documents(Admin)
