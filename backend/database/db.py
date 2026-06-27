@@ -2,8 +2,10 @@
 # Configures the database connection. It creates a SQLAlchemy engine to connect to SQLite
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+import os
 
-DATABASE_URL= "sqlite:///./knowledge_copilot.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'knowledge_copilot.db')}"
 
 #orm_engine create the db connection, orm-session - starts the conversation with db
 #check_same_thread=False - allows only the thread that created the connection to use it.

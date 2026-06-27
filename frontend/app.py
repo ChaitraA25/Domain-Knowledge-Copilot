@@ -1,5 +1,8 @@
 import streamlit as st
 import requests
+import os
+
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 st.set_page_config(
     page_title="Domain Knowledge Copilot",
@@ -266,7 +269,7 @@ if auth_mode == "Register":
     if st.sidebar.button("Register"):
 
         response = requests.post(
-            "http://localhost:8000/users",
+            f"{BACKEND_URL}/users",
             json={
                 "username": username,
                 "email": email,
@@ -297,7 +300,7 @@ else:
 
     if st.sidebar.button("Login"):
         response = requests.post(
-            "http://localhost:8000/users/login",
+            f"{BACKEND_URL}/users/login",
             data={"username": email, "password": password}
         )
 
@@ -306,7 +309,7 @@ else:
             st.session_state["token"] = token
 
             user_response = requests.get(
-                "http://localhost:8000/users/me",
+                f"{BACKEND_URL}/users/me",
                 headers={"Authorization": f"Bearer {token}"}
             )
             if user_response.status_code == 200:
@@ -353,7 +356,7 @@ if st.session_state.get("role") == "admin":
     if uploaded_file:
         if st.button("Upload Document"):
             response = requests.post(
-                "http://localhost:8000/documents/upload",
+                f"{BACKEND_URL}/documents/upload",
                 headers={"Authorization": f"Bearer {st.session_state['token']}"},
                 files={"file": (uploaded_file.name, uploaded_file, uploaded_file.type)}
             )
@@ -366,7 +369,7 @@ if st.session_state.get("role") == "admin":
     st.header("📚 Uploaded Documents")
 
     response = requests.get(
-        "http://localhost:8000/documents",
+        f"{BACKEND_URL}/documents",
         headers={
             "Authorization":
             f"Bearer {st.session_state['token']}"
@@ -391,7 +394,7 @@ if st.session_state.get("role") == "admin":
                         key=f"delete_{doc['id']}"
                     ):
                         delete_response = requests.delete(
-                            f"http://localhost:8000/documents/{doc['id']}",
+                            f"{BACKEND_URL}/documents/{doc['id']}",
                             headers={
                                 "Authorization":
                                 f"Bearer {st.session_state['token']}"
@@ -412,7 +415,7 @@ question = st.text_input("What would you like to know?", placeholder="e.g. What 
 
 if st.button("Ask ✨") and question:
     response = requests.post(
-        "http://localhost:8000/ask",
+        f"{BACKEND_URL}/ask",
         headers={"Authorization": f"Bearer {st.session_state['token']}"},
         json={"query": question}
     )
@@ -437,7 +440,7 @@ st.divider()
 st.header("🕓 Chat History")
 
 history_response = requests.get(
-    "http://localhost:8000/chat/history",
+    f"{BACKEND_URL}/chat/history",
     headers={"Authorization": f"Bearer {st.session_state['token']}"}
 )
 

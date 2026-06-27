@@ -1,5 +1,8 @@
-import chromadb 
-#PersistentClient- To save the vector to disk
-client= chromadb.PersistentClient(path="chroma_db")
+import chromadb
+import os
 
-collection=client.get_or_create_collection(name="documents")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CHROMA_PATH = os.path.join(BASE_DIR, "chroma_db")
+
+client = chromadb.PersistentClient(path=CHROMA_PATH)
+collection = client.get_or_create_collection(name="documents")
