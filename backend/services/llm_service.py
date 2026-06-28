@@ -12,6 +12,8 @@ def generate_answer(question: str, context: str):
 You are a helpful assistant.
 
 Answer the question ONLY using the provided context below.
+Do NOT use any outside knowledge.
+If the answer is not in the context, respond with exactly: "No relevant information found."
 
 Context:{context}
 
