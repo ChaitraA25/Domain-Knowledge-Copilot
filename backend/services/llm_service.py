@@ -7,21 +7,17 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_answer(question: str, context: str):
-    prompt = f"""
-    
-You are a helpful assistant.
-
-Answer the question ONLY using the provided context below.
-Do NOT use any outside knowledge.
-If the answer is not in the context, respond with exactly: "No relevant information found."
-
-Context:{context}
-
-Question:{question}
-"""
-    response = client.responses.create(
-        model = "gpt-4.1-mini",
-        input = prompt
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a helpful assistant. Answer ONLY using the provided context. If the answer is not in the context, respond with exactly: 'No relevant information found.' Do not use outside knowledge."
+            },
+            {
+                "role": "user",
+                "content": f"Context:\n{context}\n\nQuestion:\n{question}"
+            }
+        ]
     )
-
-    return response.output_text
+    return response.choices[0].message.content
