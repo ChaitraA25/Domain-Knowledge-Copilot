@@ -38,13 +38,7 @@ def ask_question(request: SearchRequest,db:Session= Depends(get_db),current_user
         question=request.query,context = context
     )
 
-    no_answer_phrases = [
-        "no relevant", "not found", "don't know",
-        "cannot find", "no information", "not mentioned",
-        "not available", "outside the scope"
-    ]
-
-    if any(phrase in answer.lower() for phrase in no_answer_phrases):
+    if answer.strip() == "No relevant information found.":
         save_chat(db=db, user_id=current_user.id, question=request.query, answer=answer)
         return AnswerResponse(answer=answer, sources=[])
     
