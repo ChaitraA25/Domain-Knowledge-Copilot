@@ -57,6 +57,9 @@ def get_document_by_id(db: Session,document_id: int):
         db.query(Document).filter(Document.id == document_id).first()
     )
 
+def get_all_documents(db: Session):
+    return db.query(Document).all()
+
 def delete_document(db: Session, document: Document):
     # Remove vectors
     delete_document_chunks(document.id)
