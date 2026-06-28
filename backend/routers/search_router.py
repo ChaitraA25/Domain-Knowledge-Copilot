@@ -38,7 +38,7 @@ def ask_question(request: SearchRequest,db:Session= Depends(get_db),current_user
         question=request.query,context = context
     )
 
-    if "no relevant information found" in answer.strip().lower():
+    if answer.strip() == "No relevant information found.":
         save_chat(db=db, user_id=current_user.id, question=request.query, answer=answer)
         return AnswerResponse(answer=answer, sources=[])
     
