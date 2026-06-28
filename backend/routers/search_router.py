@@ -29,11 +29,6 @@ def ask_question(request: SearchRequest,db:Session= Depends(get_db),current_user
 
     metadatas = results["metadatas"][0]
 
-    sources = list(
-        {
-            metadata["filename"] for metadata in metadatas
-        }
-    )
     if not chunks:
         return AnswerResponse(answer = "No relevant information found.", sources=[])
     
@@ -43,6 +38,18 @@ def ask_question(request: SearchRequest,db:Session= Depends(get_db),current_user
         question=request.query,context = context
     )
 
+    no_answer_phrases = [
+        "no relevant", "not found", "don't know",
+        "cannot find", "no information", "not mentioned",
+        "not available", "outside the scope"
+    ]
+
+    if any(phrase in answer.lower() for phrase in no_answer_phrases):
+        save_chat(db=db, user_id=current_user.id, question=request.query, answer=answer)
+        return AnswerResponse(answer=answer, sources=[])
+    
+    sources = list({metadata["filename"] for metadata in metadatas})
+
     save_chat(db=db,user_id=current_user.id,question=request.query,answer=answer)
 
-    return AnswerResponse(answer=answer,sources=sources )
+    return AnswerResponse(answer=answer,sources=sources)
